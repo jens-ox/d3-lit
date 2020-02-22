@@ -1,0 +1,35 @@
+{
+  "name": "d3-axis-lit",
+  "version": "0.0.1",
+  "description": "d3-axis using web components",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jens-ox/d3-axis-lit.git"
+  },
+  "keywords": [
+    "d3",
+    "d3-axis",
+    "lit-html",
+    "litelement"
+  ],
+  "author": "Jens Ox",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jens-ox/d3-axis-lit/issues"
+  },
+  "homepage": "https://github.com/jens-ox/d3-axis-lit#readme",
+  "devDependencies": {
+    "copy-webpack-plugin": "^5.1.1",
+    "html-webpack-plugin": "^3.2.0",
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
+  },
+  "dependencies": {
+    "lit-element": "^2.2.1"
+  }
+}
