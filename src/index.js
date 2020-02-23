@@ -1,1 +1,1 @@
-import './components/my-app.js'
+import './components/axis'
