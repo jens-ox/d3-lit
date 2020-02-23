@@ -1,15 +1,16 @@
 {
-  "name": "d3-axis-lit",
+  "name": "@jens-ox/d3-lit",
   "version": "0.0.1",
-  "description": "d3-axis using web components",
-  "main": "index.js",
+  "description": "d3 using web components",
+  "main": "src/index.js",
+  "module": "src/index.js",
   "scripts": {
     "dev": "webpack-dev-server --env.mode development",
     "dist": "webpack --env.mode production"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jens-ox/d3-axis-lit.git"
+    "url": "git+https://github.com/jens-ox/d3-lit.git"
   },
   "keywords": [
     "d3",
@@ -20,9 +21,9 @@
   "author": "Jens Ox",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jens-ox/d3-axis-lit/issues"
+    "url": "https://github.com/jens-ox/d3-lit/issues"
   },
-  "homepage": "https://github.com/jens-ox/d3-axis-lit#readme",
+  "homepage": "https://github.com/jens-ox/d3-lit#readme",
   "devDependencies": {
     "d3-scale": "^3.2.1",
     "eslint": "^6.8.0",
