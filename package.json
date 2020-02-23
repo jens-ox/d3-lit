@@ -1,6 +1,6 @@
 {
   "name": "d3-lit",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "d3 using web components",
   "main": "src/index.js",
   "module": "src/index.js",
