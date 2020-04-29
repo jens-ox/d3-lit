@@ -1,1 +1,1 @@
-import './components/axis'
+import './graphs/test-graph'
