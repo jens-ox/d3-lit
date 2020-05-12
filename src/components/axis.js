@@ -1,5 +1,4 @@
 import { svg } from 'lit-html'
-
 import { scaleLinear } from 'd3-scale'
 
 // constants
@@ -17,7 +16,7 @@ const center = scale => {
   return d => +scale(d) + offset
 }
 
-const axis = ({
+export default ({
   orientation = BOTTOM,
   scale = scaleLinear().domain([0, 100]).range([0, 400]),
   tickArguments = [],
@@ -103,5 +102,3 @@ const axis = ({
     </g>
   `
 }
-
-export default axis

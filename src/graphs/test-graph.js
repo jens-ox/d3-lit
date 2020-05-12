@@ -1,5 +1,5 @@
 import { html, render } from 'lit-html'
-import axis from '../components/axis'
+import './abstract-graph'
 
 class TestGraph extends HTMLElement {
   constructor () {
@@ -8,27 +8,25 @@ class TestGraph extends HTMLElement {
     render(this.render(), this.shadowRoot)
   }
 
+  get width () {
+    return (this.shadowRoot.host.getBoundingClientRect()).width
+  }
+
+  get height () {
+    return (this.shadowRoot.host.getBoundingClientRect()).height
+  }
+
+  get innerWidth () {
+    return this.width - 50
+  }
+
+  get innerHeight () {
+    return this.height - 50
+  }
+
   render () {
     return html`
-      <style>
-        .domain {
-          fill: none;
-          stroke: black;
-        }
-        text {
-          fill: currentColor;
-          font-size: 10;
-          font-family: 'sans-serif';
-        }
-        line {
-          fill: none;
-          stroke: black;
-        }
-      </style>
-      <p>test</p>
-      <svg width="500" height="60">
-        ${axis()}
-      </svg>
+      <abstract-graph width="700" height="250" />
     `
   }
 }
