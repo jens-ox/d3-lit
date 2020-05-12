@@ -26,6 +26,9 @@ class TestGraph extends HTMLElement {
 
   render () {
     return html`
+      <p>
+        Test
+      </p>
       <abstract-graph width="700" height="250" />
     `
   }

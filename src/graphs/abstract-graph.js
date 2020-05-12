@@ -40,14 +40,12 @@ export default class AbstractGraph extends HTMLElement {
         text {
           fill: currentColor;
           font-size: 10;
-          font-family: 'sans-serif';
         }
         line {
           fill: none;
           stroke: black;
         }
       </style>
-      <p>test</p>
       <svg viewBox=${`0 0 ${this.width} ${this.height}`} width=${this.width} height=${this.height}>
         <g transform="translate(20,20)">
           ${axis({ orientation: 4, scale: yScale })}
