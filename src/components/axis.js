@@ -72,8 +72,6 @@ export default ({
       ? '0.71em'
       : '0.32em'
 
-  console.log('rendering axis')
-
   return svg`
     <g
       class="lit-axis"

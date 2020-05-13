@@ -1,7 +1,7 @@
 import { html, LitElement } from 'lit-element'
 import users from '../data/users'
 import '../components/lines'
-import './abstract-graph'
+import './line-graph'
 
 class TestGraph extends LitElement {
   get width () {
@@ -17,7 +17,7 @@ class TestGraph extends LitElement {
       <p>
         Test
       </p>
-      <abstract-graph
+      <line-graph
         width="700"
         height="250"
         .data=${users.map(entry => ({
@@ -27,11 +27,9 @@ class TestGraph extends LitElement {
         .yScale=${{ minValue: 0 }}
         brush
         area
-        xAccessor="date"
-        yAccessor="value"
-      >
-        <line-container />
-      </abstract-graph>
+        .xAccessor=${x => x.date}
+        .yAccessor=${x => x.value}
+      />
     `
   }
 }
