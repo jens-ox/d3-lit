@@ -24,3 +24,21 @@ The API is nearly the same as [D3's API](https://github.com/d3/d3-axis):
   console.log(axis.tickSizeInner) // 12
 </script>
 ```
+
+For a simple Line Graph, you can either proceed like in the example above or use it inside of another LitElement component:
+
+```jsx
+<line-graph
+  width="700"
+  height="250"
+  .data=${users.map(entry => ({
+    date: new Date(entry.date),
+    value: entry.value
+  }))}
+  .yScale=${{ minValue: 0 }}
+  brush
+  area
+  .xAccessor=${x => x.date}
+  .yAccessor=${x => x.value}
+/>
+```
