@@ -1,6 +1,6 @@
 import { LitElement, html, property } from 'lit-element'
 import { line, curveLinear } from 'd3-shape'
-import constants from '../../../metrics-graphics/packages/lib/src/js/misc/constants'
+import constants from '../constants'
 
 class LineContainer extends LitElement {
   @property({ type: Number }) width = 100
