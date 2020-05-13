@@ -1,13 +1,9 @@
-import { html, render } from 'lit-html'
+import { html, LitElement } from 'lit-element'
+import users from '../data/users'
+import '../components/lines'
 import './abstract-graph'
 
-class TestGraph extends HTMLElement {
-  constructor () {
-    super()
-    this.attachShadow({ mode: 'open' })
-    render(this.render(), this.shadowRoot)
-  }
-
+class TestGraph extends LitElement {
   get width () {
     return (this.shadowRoot.host.getBoundingClientRect()).width
   }
@@ -16,20 +12,26 @@ class TestGraph extends HTMLElement {
     return (this.shadowRoot.host.getBoundingClientRect()).height
   }
 
-  get innerWidth () {
-    return this.width - 50
-  }
-
-  get innerHeight () {
-    return this.height - 50
-  }
-
   render () {
     return html`
       <p>
         Test
       </p>
-      <abstract-graph width="700" height="250" />
+      <abstract-graph
+        width="700"
+        height="250"
+        .data=${users.map(entry => ({
+          date: new Date(entry.date),
+          value: entry.value
+        }))}
+        .yScale=${{ minValue: 0 }}
+        brush
+        area
+        xAccessor="date"
+        yAccessor="value"
+      >
+        <line-container />
+      </abstract-graph>
     `
   }
 }

@@ -1,4 +1,4 @@
-import { svg } from 'lit-html'
+import { svg } from 'lit-element'
 import { scaleLinear } from 'd3-scale'
 
 // constants
