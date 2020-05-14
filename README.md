@@ -1,6 +1,6 @@
-<p align="center">
+<p align="center" style="font-size:.7rem">
 <img alt="Sample Screenshot" src="./.img/screenshot.png" style="display:block">
-<p style="font-size:.7rem" align="center">This is an example line graph made with d3-lit. The code is below.</p>
+This is an example line graph made with d3-lit. The code is below.
 </p>
 
 ### Motivation
