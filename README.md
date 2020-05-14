@@ -1,3 +1,7 @@
+![Sample Screenshot](.img/screenshot.png)
+
+<small>This is an example line graph made with d3-lit. The code is below.</small>
+
 ### Motivation
 
 The parts of D3 that are meant to directly produce DOM elements are hard to use with frameworks, because manual work is needed to correctly react to changes. Avoiding this is one of the reasons why frontend frameworks exist in the first place, so this feels like a step back for some people.
@@ -43,5 +47,3 @@ For a simple Line Graph, you can either proceed like in the example above or use
   .curve=${d3.curveCatmullRom}
 />
 ```
-
-![Sample Screenshot](.img/screenshot.png)
