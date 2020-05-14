@@ -1,6 +1,5 @@
 <p align="center">
-![Sample Screenshot](.img/screenshot.png)
-
+<img alt="Sample Screenshot" src="./img/screenshot.png">
 <span style="font-size:.7rem;width:100%;display:block">This is an example line graph made with d3-lit. The code is below.</span>
 </p>
 
