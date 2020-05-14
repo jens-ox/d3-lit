@@ -22,6 +22,9 @@ export default class AbstractGraph extends LitElement {
     return [defaultStyle]
   }
 
+  get isSingleObject () { return !Array.isArray(this.data) }
+  get isArrayOfArrays () { return !this.data.some(dataArray => !Array.isArray(dataArray)) }
+
   get top () { return this.margin.top }
   get left () { return this.margin.left }
   get bottom () { return this.height - this.margin.bottom }

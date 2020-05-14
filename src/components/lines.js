@@ -1,6 +1,16 @@
 import { LitElement, html, property } from 'lit-element'
-import { line, curveLinear } from 'd3-shape'
+import { line, curveLinear, area } from 'd3-shape'
 import constants from '../constants'
+
+const hexToRgba = (hex, opacity) => {
+  hex = hex.charAt('#') ? hex.substr(1) : hex
+  const bigint = parseInt(hex, 16)
+  const r = (bigint >> 16) & 255
+  const g = (bigint >> 8) & 255
+  const b = bigint & 255
+
+  return `rgba(${r},${g},${b},${opacity})`
+}
 
 class LineContainer extends LitElement {
   @property({ type: Number }) width = 100
@@ -12,17 +22,28 @@ class LineContainer extends LitElement {
   @property({ type: Function }) yScale = null
   @property({ type: Function }) curve = curveLinear
   @property({ type: Array }) colors = constants.defaultColors
-  @property({ type: Function }) defined = () => true
+  @property({ type: Array }) defined = []
+  @property({ type: Array }) area = []
+  @property({ type: Function }) areaOpacity = () => 0.4
 
   get lineObject () {
     return line()
-      .defined(d => this.yAccessor(d) === null ? false : this.defined(d))
       .x(d => this.xScale(this.xAccessor(d)))
       .y(d => this.yScale(this.yAccessor(d)))
       .curve(this.curve)
   }
 
+  get areaObject () {
+    return area()
+      .x(d => this.xScale(this.xAccessor(d)))
+      .y1(d => this.yScale(this.yAccessor(d)))
+      .y0(() => this.yScale(0))
+      .curve(this.curve)
+  }
+
   render () {
+    // check if data has correct format
+    if (this.data.some(dataArray => !Array.isArray(dataArray))) throw new Error('data needs to be array of data arrays')
     return html`
       <canvas width=${this.width} height=${this.height} id="canvas"></canvas>
     `
@@ -30,13 +51,28 @@ class LineContainer extends LitElement {
 
   updated () {
     const ctx = this.shadowRoot.getElementById('canvas').getContext('2d')
-    const lineInstance = this.lineObject.context(ctx)
     ctx.translate(0.5, 0.5)
-    ctx.beginPath()
-    lineInstance(this.data)
-    ctx.lineWidth = 1.5
-    ctx.strokeStyle = 'steelblue'
-    ctx.stroke()
+    this.data.forEach((dataArray, i) => {
+      const lineInstance = this.lineObject
+        .defined(d => this.yAccessor(d) === null
+          ? false
+          : this.defined[i] ? this.defined[i](d) : true)
+        .context(ctx)
+      const areaInstance = this.areaObject
+        .defined(d => this.yAccessor(d) === null
+          ? false
+          : this.defined[i] ? this.defined[i](d) : true)
+        .context(ctx)
+      ctx.beginPath()
+      lineInstance(dataArray)
+      ctx.lineWidth = 1.5
+      ctx.strokeStyle = this.colors[i]
+      ctx.stroke()
+      ctx.beginPath()
+      areaInstance(dataArray)
+      ctx.fillStyle = hexToRgba(this.colors[i], this.areaOpacity(i))
+      ctx.fill()
+    })
     ctx.translate(-0.5, -0.5)
   }
 }

@@ -22,10 +22,11 @@ export default ({
   tickArguments = [],
   tickValues = null,
   tickFormat = null,
-  tickSize = 6,
+  tickSize,
   tickSizeInner = 6,
   tickSizeOuter = 6,
-  tickPadding = 3
+  tickPadding = 3,
+  tickCount
 } = {}) => {
   const isHorizontal = [TOP, BOTTOM].includes(orientation)
   const k = [TOP, LEFT].includes(orientation) ? -1 : 1
@@ -43,6 +44,15 @@ export default ({
       ? scale.tickFormat.apply(scale, tickArguments)
       : d => d)
     : tickFormat
+
+  if (tickSize) {
+    tickSizeInner = tickSize
+    tickSizeOuter = tickSize
+  }
+
+  if (tickCount) {
+    tickArguments = [tickCount]
+  }
 
   const spacing = Math.max(tickSizeInner, 0) + tickPadding
 

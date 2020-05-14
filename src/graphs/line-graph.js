@@ -15,6 +15,10 @@ export default class LineGraph extends AbstractGraph {
     }
   }
 
+  get normalizedData () {
+    return this.isArrayOfArrays ? this.data : [this.data]
+  }
+
   render () {
     const xScale = scaleTime().domain(this.extents.x).range([0, this.innerWidth])
     const yScale = scaleLinear().domain(this.extents.y).range([this.innerHeight, 0])
@@ -54,7 +58,7 @@ export default class LineGraph extends AbstractGraph {
           <line-container
             width=${this.innerWidth}
             height=${this.innerHeight}
-            .data=${this.data}
+            .data=${this.normalizedData}
             .xAccessor=${this.xAccessor}
             .yAccessor=${this.yAccessor}
             .xScale=${xScale}
