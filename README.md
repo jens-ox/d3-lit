@@ -40,5 +40,8 @@ For a simple Line Graph, you can either proceed like in the example above or use
   area
   .xAccessor=${x => x.date}
   .yAccessor=${x => x.value}
+  .curve=${d3.curveCatmullRom}
 />
 ```
+
+![Sample Screenshot](.img/screenshot.png)

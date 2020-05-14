@@ -1,5 +1,6 @@
 import { LitElement, property } from 'lit-element'
 import defaultStyle from '../style'
+import constants from '../constants'
 
 export default class AbstractGraph extends LitElement {
   @property({ type: Number }) width = 0
@@ -38,5 +39,14 @@ export default class AbstractGraph extends LitElement {
 
   get innerHeight () {
     return this.height - this.margin.top - this.margin.bottom - 2 * this.buffer
+  }
+
+  computeAxisType (accessor) {
+    const flatData = this.data.flat()
+    const value = accessor(flatData[0])
+
+    return value instanceof Date
+      ? constants.axisFormat.date
+      : constants.axisFormat.number
   }
 }

@@ -1,4 +1,5 @@
 import { html, LitElement } from 'lit-element'
+import { curveCatmullRom } from 'd3-shape'
 import users from '../data/users'
 import '../components/lines'
 import './line-graph'
@@ -29,6 +30,7 @@ class TestGraph extends LitElement {
         area
         .xAccessor=${x => x.date}
         .yAccessor=${x => x.value}
+        .curve=${curveCatmullRom}
       />
     `
   }

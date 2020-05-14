@@ -1,12 +1,16 @@
-import { html } from 'lit-element'
+import { html, property } from 'lit-element'
 import { styleMap } from 'lit-html/directives/style-map'
-import { scaleLinear, scaleTime } from 'd3-scale'
 import { extent } from 'd3-array'
 import axis from '../components/axis'
 import AbstractGraph from './abstract-graph'
 import '../components/lines'
+import { curveLinear } from 'd3-shape'
+import generateScale from '../generators/scale'
+import constants from '../constants'
 
 export default class LineGraph extends AbstractGraph {
+  @property({ type: Function }) curve = curveLinear
+
   get extents () {
     const flatData = this.data.flat()
     return {
@@ -20,8 +24,16 @@ export default class LineGraph extends AbstractGraph {
   }
 
   render () {
-    const xScale = scaleTime().domain(this.extents.x).range([0, this.innerWidth])
-    const yScale = scaleLinear().domain(this.extents.y).range([this.innerHeight, 0])
+    const xScale = generateScale({
+      type: constants.scaleType.time,
+      domain: this.extents.x,
+      range: [0, this.innerWidth]
+    })
+    const yScale = generateScale({
+      type: constants.scaleType.linear,
+      domain: this.extents.y,
+      range: [this.innerHeight, 0]
+    })
     const childStyle = {
       position: 'absolute',
       top: `${this.plotTop}px`,
@@ -45,12 +57,12 @@ export default class LineGraph extends AbstractGraph {
 
             <!-- y axis -->
             <g transform=${`translate(${this.left},${this.top})`}>
-              ${axis({ orientation: 4, scale: yScale, buffer: this.buffer, tickCount: 3 })}
+              ${axis({ orientation: 4, scale: yScale, buffer: this.buffer, tickFormat: this.computeAxisType(this.yAccessor) })}
             </g>
     
             <!-- x axis -->
             <g transform=${`translate(${this.left}, ${this.top + this.innerHeight + 2 * this.buffer})`}>
-              ${axis({ orientation: 3, scale: xScale, buffer: this.buffer, tickCount: 5 })}
+              ${axis({ orientation: 3, scale: xScale, buffer: this.buffer })}
             </g>
           </g>
         </svg>
@@ -63,6 +75,7 @@ export default class LineGraph extends AbstractGraph {
             .yAccessor=${this.yAccessor}
             .xScale=${xScale}
             .yScale=${yScale}
+            .curve=${this.curve}
           />
         </div>
       </div>

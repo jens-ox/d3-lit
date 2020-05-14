@@ -3,11 +3,17 @@ import { css } from 'lit-element'
 export default css`
 .domain {
   fill: none;
-  stroke: black;
+  stroke: #b3b2b2;
+}
+.tick > line {
+  stroke: #b3b2b2;
+}
+.tick > text {
+  font-size: .7rem;
+  opacity: 0.7;
 }
 text {
-  fill: currentColor;
-  font-size: 10;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"
 }
 line {
   fill: none;

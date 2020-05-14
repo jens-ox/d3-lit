@@ -14,7 +14,8 @@ export default {
   scaleType: {
     categorical: 'categorical',
     linear: 'linear',
-    log: 'log'
+    log: 'log',
+    time: 'time'
   },
   axisFormat: {
     date: 'date',

@@ -1,5 +1,7 @@
 import { svg } from 'lit-element'
-import { scaleLinear } from 'd3-scale'
+import { format } from 'd3-format'
+import { timeFormat } from 'd3-time-format'
+import constants from '../constants'
 
 // constants
 const TOP = 1
@@ -16,9 +18,39 @@ const center = scale => {
   return d => +scale(d) + offset
 }
 
+const stringToFormat = (formatType, isHorizontal, scale) => {
+  switch (formatType) {
+    case constants.axisFormat.number: return isHorizontal ? format('') : format('~s')
+    case constants.axisFormat.date: return diffToTimeFormat(scale)
+    case constants.axisFormat.percentage: return format('.0%')
+    default: return format(formatType)
+  }
+}
+
+const diffToTimeFormat = scale => {
+  const diff = Math.abs(scale.domain[1] - scale.domain[0]) / 1000
+
+  const millisecondDiff = diff < 1
+  const secondDiff = diff < 60
+  const dayDiff = diff / (60 * 60) < 24
+  const fourDaysDiff = diff / (60 * 60) < 24 * 4
+  const manyDaysDiff = diff / (60 * 60 * 24) < 60
+  const manyMonthsDiff = diff / (60 * 60 * 24) < 365
+
+  return millisecondDiff
+    ? timeFormat('%M:%S.%L')
+    : secondDiff
+      ? timeFormat('%M:%S')
+      : dayDiff
+        ? timeFormat('%H:%M')
+        : fourDaysDiff || manyDaysDiff || manyMonthsDiff
+          ? timeFormat('%b %d')
+          : timeFormat('%Y')
+}
+
 export default ({
   orientation = BOTTOM,
-  scale = scaleLinear().domain([0, 100]).range([0, 400]),
+  scale = null,
   tickArguments = [],
   tickValues = null,
   tickFormat = null,
@@ -27,9 +59,12 @@ export default ({
   tickSizeOuter = 0,
   tickPadding = 3,
   tickCount,
-  buffer = 0
+  buffer = 0,
+  prefix = '',
+  suffix = ''
 } = {}) => {
   const isHorizontal = [TOP, BOTTOM].includes(orientation)
+  tickCount = tickCount ?? isHorizontal ? 5 : 3
   const k = [TOP, LEFT].includes(orientation) ? -1 : 1
   const x = isHorizontal ? 'y' : 'x'
   const transform = isHorizontal ? translateX : translateY
@@ -48,7 +83,9 @@ export default ({
     ? (scale.tickFormat
       ? scale.tickFormat.apply(scale, tickArguments)
       : d => d)
-    : tickFormat
+    : typeof tickFormat === 'function'
+      ? tickFormat
+      : stringToFormat(tickFormat, isHorizontal, scale)
 
   if (tickSize) {
     tickSizeInner = tickSize
@@ -58,12 +95,11 @@ export default ({
   const spacing = Math.max(tickSizeInner, 0) + tickPadding
 
   const range = scale.range()
-  console.log('range: ', range)
   let range0 = +range[0] + 0.5
   let range1 = +range[range.length - 1] + 0.5
 
   // add buffer if necessary
-  if ([LEFT, RIGHT].includes(orientation)) {
+  if (!isHorizontal) {
     range0 += 2 * buffer
   } else {
     range1 += 2 * buffer
@@ -71,7 +107,7 @@ export default ({
 
   const position = (scale.bandwidth ? center : number)(scale.copy())
 
-  const pathData = [LEFT, RIGHT].includes(orientation)
+  const pathData = !isHorizontal
     ? tickSizeOuter
       ? `M${k * tickSizeOuter},${range0}H0.5V${range1}H${k * tickSizeOuter}`
       : `M0.5,${range0}V${range1}`
@@ -110,8 +146,8 @@ export default ({
             : svg`<line y2="${k * tickSizeInner}"></line>`
           }
           ${x === 'x'
-            ? svg`<text x="${k * spacing}" dy="${dy}">${format(d)}</text>`
-            : svg`<text y="${k * spacing}" dy="${dy}">${format(d)}</text>`
+            ? svg`<text x="${k * spacing}" dy="${dy}">${prefix}${format(d)}${suffix}</text>`
+            : svg`<text y="${k * spacing}" dy="${dy}">${prefix}${format(d)}${suffix}</text>`
           }
         </g>
       `)}
