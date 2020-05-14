@@ -45,12 +45,12 @@ export default class LineGraph extends AbstractGraph {
 
             <!-- y axis -->
             <g transform=${`translate(${this.left},${this.top})`}>
-              ${axis({ orientation: 4, scale: yScale })}
+              ${axis({ orientation: 4, scale: yScale, buffer: this.buffer, tickCount: 3 })}
             </g>
     
             <!-- x axis -->
-            <g transform=${`translate(${this.left}, ${this.innerHeight + this.buffer})`}>
-              ${axis({ orientation: 3, scale: xScale })}
+            <g transform=${`translate(${this.left}, ${this.top + this.innerHeight + 2 * this.buffer})`}>
+              ${axis({ orientation: 3, scale: xScale, buffer: this.buffer, tickCount: 5 })}
             </g>
           </g>
         </svg>

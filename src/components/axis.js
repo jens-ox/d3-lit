@@ -24,14 +24,19 @@ export default ({
   tickFormat = null,
   tickSize,
   tickSizeInner = 6,
-  tickSizeOuter = 6,
+  tickSizeOuter = 0,
   tickPadding = 3,
-  tickCount
+  tickCount,
+  buffer = 0
 } = {}) => {
   const isHorizontal = [TOP, BOTTOM].includes(orientation)
   const k = [TOP, LEFT].includes(orientation) ? -1 : 1
   const x = isHorizontal ? 'y' : 'x'
   const transform = isHorizontal ? translateX : translateY
+
+  if (tickCount) {
+    tickArguments = [tickCount]
+  }
 
   const values = tickValues == null
     ? (scale.ticks
@@ -50,22 +55,26 @@ export default ({
     tickSizeOuter = tickSize
   }
 
-  if (tickCount) {
-    tickArguments = [tickCount]
-  }
-
   const spacing = Math.max(tickSizeInner, 0) + tickPadding
 
   const range = scale.range()
-  const range0 = +range[0] + 0.5
-  const range1 = +range[range.length - 1] + 0.5
+  console.log('range: ', range)
+  let range0 = +range[0] + 0.5
+  let range1 = +range[range.length - 1] + 0.5
+
+  // add buffer if necessary
+  if ([LEFT, RIGHT].includes(orientation)) {
+    range0 += 2 * buffer
+  } else {
+    range1 += 2 * buffer
+  }
 
   const position = (scale.bandwidth ? center : number)(scale.copy())
 
   const pathData = [LEFT, RIGHT].includes(orientation)
     ? tickSizeOuter
       ? `M${k * tickSizeOuter},${range0}H0.5V${range1}H${k * tickSizeOuter}`
-      : `M0.5${range0}V${range1}`
+      : `M0.5,${range0}V${range1}`
     : tickSizeOuter
       ? `M${range0},${k * tickSizeOuter}V0.5H${range1}V${k * tickSizeOuter}`
       : `M${range0},0.5H${range1}`
@@ -86,7 +95,6 @@ export default ({
     <g
       class="lit-axis"
       text-anchor="${textAnchor}"
-      transform="translate(10,10)"
     >
       <path
         class="domain"
