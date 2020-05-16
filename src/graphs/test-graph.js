@@ -1,6 +1,6 @@
 import { html, LitElement } from 'lit-element'
 import { curveCatmullRom } from 'd3-shape'
-import users from '../data/users'
+import fakeUsers2 from '../data/fakeUsers2'
 import '../components/lines'
 import './line-graph'
 
@@ -19,12 +19,12 @@ class TestGraph extends LitElement {
         Test
       </p>
       <line-graph
-        width="700"
-        height="250"
-        .data=${users.map(entry => ({
-          date: new Date(entry.date),
-          value: entry.value
-        }))}
+        width="1200"
+        height="400"
+        .data=${fakeUsers2.map(fakeArray => fakeArray.map(fakeEntry => ({
+      ...fakeEntry,
+      date: new Date(fakeEntry.date)
+    })))}
         .yScale=${{ minValue: 0 }}
         brush
         area

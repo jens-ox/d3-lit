@@ -4,6 +4,7 @@ import { extent } from 'd3-array'
 import axis from '../components/axis'
 import AbstractGraph from './abstract-graph'
 import '../components/lines'
+import '../components/delaunay'
 import { curveLinear } from 'd3-shape'
 import generateScale from '../generators/scale'
 import constants from '../constants'
@@ -76,7 +77,16 @@ export default class LineGraph extends AbstractGraph {
             .xScale=${xScale}
             .yScale=${yScale}
             .curve=${this.curve}
-          />
+          ></line-container>
+          <delaunay-container
+            .points=${this.data}
+            .xAccessor=${this.xAccessor}
+            .yAccessor=${this.yAccessor}
+            .xScale=${xScale}
+            .yScale=${yScale}
+            .onPoint=${point => { console.log('on point: ', point) }}
+            .onLeave=${() => { console.log('left') }}
+          ></delaunay-container>
         </div>
       </div>
     `

@@ -4,10 +4,10 @@ import constants from '../constants'
 
 const hexToRgba = (hex, opacity) => {
   hex = hex.charAt('#') ? hex.substr(1) : hex
-  const bigint = parseInt(hex, 16)
-  const r = (bigint >> 16) & 255
-  const g = (bigint >> 8) & 255
-  const b = bigint & 255
+  const bigInt = parseInt(hex, 16)
+  const r = (bigInt >> 16) & 255
+  const g = (bigInt >> 8) & 255
+  const b = bigInt & 255
 
   return `rgba(${r},${g},${b},${opacity})`
 }
@@ -65,7 +65,7 @@ class LineContainer extends LitElement {
         .context(ctx)
       ctx.beginPath()
       lineInstance(dataArray)
-      ctx.lineWidth = 1.5
+      ctx.lineWidth = 1
       ctx.strokeStyle = this.colors[i]
       ctx.stroke()
       ctx.beginPath()
