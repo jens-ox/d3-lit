@@ -1,5 +1,4 @@
 import { Delaunay as DelaunayObject } from 'd3-delaunay'
-import { mouse } from 'd3-selection'
 import { LitElement, property, html } from 'lit-element'
 
 export default class Delaunay extends LitElement {
@@ -14,9 +13,8 @@ export default class Delaunay extends LitElement {
   @property({ type: Boolean }) nested = false
   @property({ type: Boolean }) aggregate = false
   @property({ type: Function }) defined = () => true
-
-  aggregatedPoints = null
-  delaunay = null
+  @property({ type: Object }) delaunay = null
+  @property({ type: Map }) aggregatedPoints = null
 
   get isNested () {
     return this.nested ?? (Array.isArray(this.points[0]) && this.points.length > 1)
@@ -67,6 +65,7 @@ export default class Delaunay extends LitElement {
 
     // find nearest point
     const index = this.delaunay.find(x, y)
+    console.log('index: ', index)
 
     // if points should be aggregated, get all points with the same x value
     if (this.aggregate) {
@@ -105,10 +104,7 @@ export default class Delaunay extends LitElement {
         height=${height}
         @mousemove=${({ x, y }) => this.gotPoint(x, y)}
         @mouseleave=${() => { this.onLeave() }}
-        @click=${() => {
-          const rawCoords = mouse(this.shadowRoot.getElementById('container'))
-          this.clickedPoint(rawCoords[0], rawCoords[1])
-        }}
+        @click=${({ x, y }) => this.clickedPoint(x, y)}
       ></div>
     `
   }

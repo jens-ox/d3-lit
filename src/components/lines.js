@@ -42,8 +42,7 @@ class LineContainer extends LitElement {
   }
 
   render () {
-    // check if data has correct format
-    if (this.data.some(dataArray => !Array.isArray(dataArray))) throw new Error('data needs to be array of data arrays')
+    console.log('lines rendering')
     return html`
       <canvas width=${this.width} height=${this.height} id="canvas"></canvas>
     `

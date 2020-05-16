@@ -11,8 +11,11 @@ import constants from '../constants'
 
 export default class LineGraph extends AbstractGraph {
   @property({ type: Function }) curve = curveLinear
+  @property({ type: Number }) pointX = -1
+  @property({ type: Number }) pointY = -1
 
   get extents () {
+    console.log('getting extents')
     const flatData = this.data.flat()
     return {
       x: extent(flatData, this.xAccessor),
@@ -25,6 +28,7 @@ export default class LineGraph extends AbstractGraph {
   }
 
   render () {
+    console.log('render toggled')
     const xScale = generateScale({
       type: constants.scaleType.time,
       domain: this.extents.x,
@@ -78,14 +82,27 @@ export default class LineGraph extends AbstractGraph {
             .yScale=${yScale}
             .curve=${this.curve}
           ></line-container>
+          <svg style="position:absolute;top:0;left:0" width=${this.innerWidth} height=${this.innerHeight}>
+            <circle cx=${this.pointX} cy=${this.pointY} r="3"></circle>
+          </svg>
           <delaunay-container
             .points=${this.data}
             .xAccessor=${this.xAccessor}
             .yAccessor=${this.yAccessor}
             .xScale=${xScale}
             .yScale=${yScale}
-            .onPoint=${point => { console.log('on point: ', point) }}
-            .onLeave=${() => { console.log('left') }}
+            .onPoint=${point => {
+              console.log('got point: ', point)
+              if (!point[0]) return
+              this.pointX = xScale(this.xAccessor(point[0]))
+              this.pointY = yScale(this.yAccessor(point[0]))
+              console.log('point: ', this.pointX, this.pointY)
+            }}
+            .onLeave=${() => {
+              this.pointX = -1
+              this.pointY = -1
+            }}
+            .onClick=${point => { console.log('clicked point: ', point) }}
           ></delaunay-container>
         </div>
       </div>
