@@ -64,7 +64,7 @@ export default ({
   suffix = ''
 } = {}) => {
   const isHorizontal = [TOP, BOTTOM].includes(orientation)
-  tickCount = tickCount ?? isHorizontal ? 5 : 3
+  tickCount = tickCount || isHorizontal ? 5 : 3
   const k = [TOP, LEFT].includes(orientation) ? -1 : 1
   const x = isHorizontal ? 'y' : 'x'
   const transform = isHorizontal ? translateX : translateY

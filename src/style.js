@@ -1,6 +1,4 @@
-import { css } from 'lit-element'
-
-export default css`
+export default `
 .domain {
   fill: none;
   stroke: #b3b2b2;

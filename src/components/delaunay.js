@@ -1,20 +1,21 @@
 import { Delaunay as DelaunayObject } from 'd3-delaunay'
-import { LitElement, property, html } from 'lit-element'
+import { html } from 'lit-html'
+import AbstractComponent from './abstract-component'
 
-export default class Delaunay extends LitElement {
-  @property({ type: Array }) points = []
-  @property({ type: Function }) xScale = null
-  @property({ type: Function }) yScale = null
-  @property({ type: Function }) xAccessor = x => x.date
-  @property({ type: Function }) yAccessor = x => x.value
-  @property({ type: Function }) onPoint = null
-  @property({ type: Function }) onLeave = null
-  @property({ type: Function }) onClick = null
-  @property({ type: Boolean }) nested = false
-  @property({ type: Boolean }) aggregate = false
-  @property({ type: Function }) defined = () => true
-  @property({ type: Object }) delaunay = null
-  @property({ type: Map }) aggregatedPoints = null
+export default class Delaunay extends AbstractComponent {
+  _points = []
+  _xScale = null
+  _yScale = null
+  _xAccessor = x => x.date
+  _yAccessor = x => x.value
+  _onPoint = null
+  _onLeave = null
+  _onClick = null
+  _nested = false
+  _aggregate = false
+  _defined = () => true
+  _delaunay = null
+  _aggregatePoints = null
 
   get isNested () {
     return this.nested ?? (Array.isArray(this.points[0]) && this.points.length > 1)

@@ -1,27 +1,23 @@
-import { LitElement, property } from 'lit-element'
-import defaultStyle from '../style'
 import constants from '../constants'
+import AbstractComponent from '../components/abstract-component'
 
-export default class AbstractGraph extends LitElement {
-  @property({ type: Number }) width = 0
-  @property({ type: Number }) height = 0
-  @property({ type: Object }) margin = { top: 10, left: 60, right: 20, bottom: 40 }
-  @property({ type: Number }) buffer = 10
-  @property({ type: Array }) markers = []
-  @property({ type: Array }) baselines = []
-  @property({ type: Array }) colors = []
-  @property({ type: Object }) xScale = {}
-  @property({ type: Object }) yScale = {}
-  @property({ type: Object }) xAxis = {}
-  @property({ type: Object }) yAxis = {}
-  @property({ type: Boolean }) showTooltip = true
-  @property({ type: Function }) tooltipFunction = null
-  @property({ type: Object }) legend = {}
-  @property({ type: String }) brush = null
-
-  static get styles () {
-    return [defaultStyle]
-  }
+export default class AbstractGraph extends AbstractComponent {
+  _width = 0
+  _height = 0
+  _margin = { top: 10, left: 60, right: 20, bottom: 40 }
+  _buffer = 10
+  _markers = []
+  _baselines = []
+  _colors = []
+  _xScale = null
+  _yScale = null
+  _xAxis = null
+  _yAxis = null
+  _showTooltip = true
+  _tooltipFunction = null
+  _legend = null
+  _brush = null
+  _data = null
 
   get isSingleObject () { return !Array.isArray(this.data) }
   get isArrayOfArrays () { return !this.data.some(dataArray => !Array.isArray(dataArray)) }
